@@ -1,0 +1,69 @@
+﻿
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Web To OpenFin</title>
+  </head>
+  <body>
+    <h1 class="headline">Within iframe</h1>
+    <div id="time" class="time"></div>
+    <br />
+    <button onclick="closeMyApp()">Close Me</button>
+    <button onclick="anotherWindow()">Another Window</button>
+    <button onclick="anotherApplication()">Another Application</button>
+    <script src="app.js"></script>
+   
+   <script>
+
+   
+
+      var timeElement = document.getElementById("time");
+      function setTime() {
+        timeElement.innerHTML = new Date().toLocaleString();
+      }
+      setTime();
+      var clockIntervalId = setInterval( function(){ setTime() }, 1000);
+      function closeMyApp(){
+      fin.desktop.Application.getCurrent().close();
+      }
+
+      function anotherWindow(){
+         if (typeof fin !== 'undefined') {
+            var win = new fin.desktop.Window({
+              name: "Another Window",
+              url: "http://google.com",
+              defaultLeft: 10,
+              defaultTop: 220,
+              saveWindowState:true,
+              accelerator:{zoom:true},
+              autoShow: true
+            });
+        } 
+      }
+
+
+    function anotherApplication(){  
+    var app = new fin.desktop.Application({
+    url: "http://bbc.co.uk",
+    uuid: "74BED629-2D8E-4141-8582-73E364BDFA74",
+    name: "Application Name",
+    mainWindowOptions: {
+        defaultHeight: 600,
+        defaultWidth: 800,
+        defaultTop: 300,
+        defaultLeft: 300,
+        accelerator:{zoom:true},
+        autoShow: true
+    }
+}, function () {
+    console.log("Application successfully created");
+    app.run();
+}, function (error) {
+    console.log("Error creating application:", error);
+});
+}
+</script>
+
+  </body>
+</html>
